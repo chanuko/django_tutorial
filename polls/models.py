@@ -1,5 +1,7 @@
 from django.db import models
-from  django.utils import timezone
+from django.utils import timezone
+import datetime
+
 
 # Create your models here.
 
@@ -12,10 +14,12 @@ class Question(models.Model):
         return self.question_text
 
     def was_published_recently(self):
-        return self.pub_date >= timezone.now()
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
-    class Meta:
-        verbose_name = verbose_name_plural = "質問"
+
+class Meta:
+    verbose_name = verbose_name_plural = "質問"
 
 
 class Choice(models.Model):
