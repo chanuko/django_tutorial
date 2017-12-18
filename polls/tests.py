@@ -48,8 +48,14 @@ class QuestionIndexViewTests(TestCase):
             res.context['latest_question_list'], ['<Question: 過去の質問>']
         )
 
+    def test_past_question(self):
+        past_question = create_question(question_text='過去の質問', days=-5)
+        url = reverse('polls:detail', args=(past_question.id,))
+        res = self.client.get(url)
+        self.assertContains(res, past_question.question_text)
+
     def test_future_question(self):
-        create_question(question_text="Future question.", days=30)
+        create_question(question_text="未来の質問", days=30)
         res = self.client.get(reverse('polls:index'))
         self.assertContains(res, "No polls are available.")
         self.assertQuerysetEqual(res.context['latest_question_list'], [])
