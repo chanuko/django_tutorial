@@ -7,8 +7,8 @@ import datetime
 
 
 class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+    question_text = models.CharField(verbose_name='質問文', max_length=200)
+    pub_date = models.DateTimeField(verbose_name='発行日')
 
     def __str__(self):
         return self.question_text
@@ -17,9 +17,8 @@ class Question(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
-
-class Meta:
-    verbose_name = verbose_name_plural = "質問"
+    class Meta:
+        verbose_name = verbose_name_plural = "質問"
 
 
 class Choice(models.Model):
